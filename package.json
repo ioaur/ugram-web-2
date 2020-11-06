@@ -1,0 +1,10 @@
+{
+  "name": "ugram-h2020-team-12",
+  "version": "1.0.0",
+  "scripts": {
+    "wipe-docker": "docker system prune -a --volumes --force",
+    "wipe-d": "docker rmi $(docker images -f dangling=true -q)"
+  },
+  "repository": "https://github.com/GLO3112-classrooms/ugram-h2020-team-12",
+  "license": "MIT"
+}

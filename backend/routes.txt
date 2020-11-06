@@ -1,0 +1,11 @@
+- créer son user										POST 	/users
+- L'usager doit pouvoir consulter son profil usager. 						GET	/users/:id
+- L’usager doit pouvoir éditer son profil usager.						PUT 	/users/:id
+- L'usager doit pouvoir consulter la liste des usagers.						GET 	/users?			//search vide, get all
+- L'usager doit pouvoir consulter le profil d'un usager ainsi que ses images.			GET	/profiles/:id
+- L'usager doit pouvoir téléverser une image avec les champs suivants.				POST	/users/:id/images/
+- L'usager doit pouvoir modifier les champs d'une de ses images.				PUT	/images/:id
+- L'usager doit pouvoir supprimer une de ses images.						DELETE	/images/:id
+- L'usager doit pouvoir consulter ses images.							GET	/images?uploadedBy=:id		
+- L'usager doit pouvoir consulter une image en particulier.					GET	/images/:id
+- L'usager doit pouvoir consulter une liste d'images ordonnées par date, tout usager confondu.	Frontend

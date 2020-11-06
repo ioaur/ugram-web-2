@@ -1,0 +1,60 @@
+version: "3"
+services:
+  postgres:
+    container_name: postgres
+    image: postgres:alpine
+    restart: always
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=ugram
+      - PGDATA=/var/lib/postgresql/data
+    ports:
+      - 5432:5432
+    volumes:
+      - postgres:/var/lib/postgresql/data
+      - ./pg/pgconf:/etc/postgresql
+      - ./pg/pglog:/var/log/postgresql
+    networks:
+      - ugram
+  nestjs:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+      args:
+        - NODE_ENV=development
+    environment:
+      - PORT=3000
+      - TYPEORM_HOST=postgres
+    container_name: nestjs
+    restart: always
+    ports:
+      - 3000:3000
+    depends_on:
+      - postgres
+    volumes:
+      - ./backend/src:/usr/src/app/src
+    networks:
+      - ugram
+  reactjs:
+    container_name: reactjs
+    restart: always
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+      args:
+        - NODE_ENV=development
+    environment:
+      - PORT=3001
+    ports:
+      - 3001:3001
+    volumes:
+      - ./frontend/src:/usr/src/app/src
+    networks:
+      - ugram
+volumes:
+  postgres:
+    driver: local
+networks:
+  ugram:
+    driver: bridge

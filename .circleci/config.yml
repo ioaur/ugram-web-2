@@ -1,0 +1,35 @@
+version: 2
+jobs:
+  build:
+    docker:
+      - image: circleci/node:lts
+      - image: circleci/postgres:alpine
+        environment:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: ugram
+
+    working_directory: ~/ugram-h2020-team-12
+    steps:
+      - checkout
+      - restore_cache:
+          keys:
+            - ugram-cache-{{ checksum "frontend/yarn.lock" }}
+            - ugram-cache-{{ checksum "backend/yarn.lock" }}
+
+      - run: cd backend/ && yarn install
+      - run: cd backend/ && yarn test
+      - run: cd backend/ && yarn format
+
+      - run: cd frontend/ && yarn install
+      - run: cd frontend/ && yarn test
+      - run: cd frontend/ && yarn format
+
+      - save_cache:
+          key: ugram-cache-{{ checksum "frontend/yarn.lock" }}
+          paths:
+            - frontend/node_modules
+      - save_cache:
+          key: ugram-cache-{{ checksum "backend/yarn.lock" }}
+          paths:
+            - backend/node_modules
